@@ -357,7 +357,11 @@ export default class HTMLScriptElement extends HTMLElement {
 				} else {
 					this.#loadScript(src);
 				}
-			} else if (browserSettings && !browserSettings.disableJavaScriptEvaluation) {
+			} else if (
+				browserSettings &&
+				(browserSettings.enableJavaScriptEvaluation ||
+					browserSettings.disableJavaScriptEvaluation === false)
+			) {
 				const source = this.textContent;
 				const type = this.getAttribute('type');
 
@@ -564,7 +568,9 @@ export default class HTMLScriptElement extends HTMLElement {
 
 		if (
 			browserSettings &&
-			(browserSettings.disableJavaScriptFileLoading || browserSettings.disableJavaScriptEvaluation)
+			(browserSettings.disableJavaScriptFileLoading ||
+				(!browserSettings.enableJavaScriptEvaluation &&
+					browserSettings.disableJavaScriptEvaluation !== false))
 		) {
 			if (browserSettings.handleDisabledFileLoadingAsSuccess) {
 				this.dispatchEvent(new Event('load'));
@@ -649,7 +655,9 @@ export default class HTMLScriptElement extends HTMLElement {
 
 		if (
 			browserSettings &&
-			(browserSettings.disableJavaScriptFileLoading || browserSettings.disableJavaScriptEvaluation)
+			(browserSettings.disableJavaScriptFileLoading ||
+				(!browserSettings.enableJavaScriptEvaluation &&
+					browserSettings.disableJavaScriptEvaluation !== false))
 		) {
 			if (browserSettings.handleDisabledFileLoadingAsSuccess) {
 				this.dispatchEvent(new Event('load'));

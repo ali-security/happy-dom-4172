@@ -4,7 +4,9 @@ import BrowserNavigationCrossOriginPolicyEnum from './enums/BrowserNavigationCro
 import IBrowserSettings from './types/IBrowserSettings.js';
 
 export default <IBrowserSettings>{
+	enableJavaScriptEvaluation: false,
 	disableJavaScriptEvaluation: false,
+	suppressCodeGenerationFromStringsWarning: false,
 	disableJavaScriptFileLoading: false,
 	disableCSSFileLoading: false,
 	disableIframePageLoading: false,

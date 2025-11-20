@@ -58,7 +58,7 @@ describe('BrowserWindow', () => {
 	let document: Document;
 
 	beforeEach(() => {
-		browser = new Browser();
+		browser = new Browser({ settings: { enableJavaScriptEvaluation: true } });
 		browserPage = browser.newPage();
 		browserFrame = browserPage.mainFrame;
 		window = browserFrame.window;

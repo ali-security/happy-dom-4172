@@ -26,7 +26,7 @@ describe('Window', () => {
 	let document: Document;
 
 	beforeEach(() => {
-		window = new Window();
+		window = new Window({ settings: { enableJavaScriptEvaluation: true } });
 		document = window.document;
 		window.customElements.define('custom-element', CustomElement);
 	});

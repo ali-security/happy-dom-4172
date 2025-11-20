@@ -7,8 +7,28 @@ import IVirtualServer from '../../fetch/types/IVirtualServer.js';
  * Browser settings.
  */
 export default interface IBrowserSettings {
-	/** Disables JavaScript evaluation. */
+	/**
+	 * Enables JavaScript evaluation.
+	 *
+	 * JavaScript evaluation is disabled by default to protect against code injection in VM contexts.
+	 * Set to true to enable eval(), Function constructor, and other code generation methods.
+	 *
+	 * @see https://nodejs.org/api/vm.html#vmcreatecontextcontextobject-options
+	 */
+	enableJavaScriptEvaluation: boolean;
+
+	/**
+	 * @deprecated Use enableJavaScriptEvaluation instead. This setting now mirrors enableJavaScriptEvaluation.
+	 */
 	disableJavaScriptEvaluation: boolean;
+
+	/**
+	 * Suppresses the warning logged when code generation from strings is enabled at process level.
+	 *
+	 * This warning alerts you when VM-level code generation restrictions are bypassed.
+	 * Only suppress this if you understand the security implications.
+	 */
+	suppressCodeGenerationFromStringsWarning: boolean;
 
 	/** Disables JavaScript file loading. */
 	disableJavaScriptFileLoading: boolean;

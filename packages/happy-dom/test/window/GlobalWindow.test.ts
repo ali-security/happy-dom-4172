@@ -6,7 +6,7 @@ describe('GlobalWindow', () => {
 	let window: Window;
 
 	beforeEach(() => {
-		window = new GlobalWindow();
+		window = new GlobalWindow({ settings: { enableJavaScriptEvaluation: true } });
 	});
 
 	describe('get Object()', () => {

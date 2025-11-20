@@ -48,7 +48,7 @@ describe('Document', () => {
 	let document: Document;
 
 	beforeEach(() => {
-		window = new Window();
+		window = new Window({ settings: { enableJavaScriptEvaluation: true } });
 		document = window.document;
 	});
 

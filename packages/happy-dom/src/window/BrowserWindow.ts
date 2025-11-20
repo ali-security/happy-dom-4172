@@ -1735,7 +1735,29 @@ export default class BrowserWindow extends EventTarget implements INodeJSGlobal 
 	 */
 	protected [PropertySymbol.setupVMContext](): void {
 		if (!VM.isContext(this)) {
-			VM.createContext(this);
+			const browserSettings = WindowBrowserContext.getSettings(this);
+			const enableEvaluation =
+				browserSettings?.enableJavaScriptEvaluation ||
+				browserSettings?.disableJavaScriptEvaluation === false;
+
+			if (
+				enableEvaluation &&
+				(<{ [PropertySymbol.disableEvaluation]?: boolean }>process)[
+					PropertySymbol.disableEvaluation
+				] &&
+				!browserSettings?.suppressCodeGenerationFromStringsWarning
+			) {
+				this.console.warn(
+					'Code generation from strings is enabled at the process level (--disallow-code-generation-from-strings flag not set), which bypasses VM-level restrictions. This may allow untrusted code to escape the VM context. See: https://nodejs.org/api/cli.html#--disallow-code-generation-from-strings'
+				);
+			}
+
+			VM.createContext(this, {
+				codeGeneration: {
+					strings: enableEvaluation,
+					wasm: true
+				}
+			});
 
 			// Sets global properties from the VM to the Window object.
 			// Otherwise "this.Array" will be undefined for example.
